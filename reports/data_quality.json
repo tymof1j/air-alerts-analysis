@@ -1,0 +1,41 @@
+{
+  "ambiguous_wall_times": 1,
+  "start_without_observed_end": 47,
+  "unmatched_all_clear": 6,
+  "open_at_snapshot": 1,
+  "completed_intervals": 2645,
+  "unpaired_early_starts_excluded": 47,
+  "municipal_starts_matched": 2641,
+  "volunteer_imputed_ends_excluded": {
+    "Rivnenska oblast": 42,
+    "Zaporizka oblast": 224,
+    "Cherkaska oblast": 152,
+    "Khersonska oblast": 1062,
+    "Kharkivska oblast": 658,
+    "Chernihivska oblast": 167,
+    "Sumska oblast": 786,
+    "Zhytomyrska oblast": 81,
+    "Odeska oblast": 86,
+    "Mykolaivska oblast": 559,
+    "Kyivska oblast": 136,
+    "Ivano-Frankivska oblast": 28,
+    "Poltavska oblast": 126,
+    "Chernivetska oblast": 11,
+    "Donetska oblast": 768,
+    "Dnipropetrovska oblast": 373,
+    "Lvivska oblast": 36,
+    "Khmelnytska oblast": 45,
+    "Kirovohradska oblast": 121,
+    "Volynska oblast": 75,
+    "Vinnytska oblast": 49,
+    "Zakarpatska oblast": 9,
+    "Ternopilska oblast": 21
+  },
+  "volunteer_nonpositive_intervals_excluded": {
+    "Dnipropetrovska oblast": 4,
+    "Kirovohradska oblast": 1,
+    "Kyivska oblast": 1
+  },
+  "geography": "Kyiv city has no municipal-district field. Kyiv oblast raions in the older national official CSV are not Kyiv city districts and stop in September.",
+  "coverage_assumption": "Closed, apparently chronological feed treated as an archive; historical ingestion uptime is unavailable. Early unpaired starts and imputed volunteer intervals are excluded, not assigned artificial ends."
+}

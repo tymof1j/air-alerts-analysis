@@ -13,3 +13,11 @@ export const localTime=t=>new Intl.DateTimeFormat('uk-UA',{timeZone:'Europe/Kyiv
 export function csv(rows){const f=Object.keys(rows[0]??{}),q=v=>'"'+String(v??'').replaceAll('"','""')+'"';const text='\uFEFF'+[f.map(q).join(','),...rows.map(r=>f.map(k=>q(r[k])).join(','))].join('\n');const u=URL.createObjectURL(new Blob([text],{type:'text/csv;charset=utf-8'})),a=document.createElement('a');a.href=u;a.download='shelter-scenario.csv';a.click();URL.revokeObjectURL(u);}
 
 export function localDate(t){const c=Object.fromEntries(fmt.formatToParts(new Date(t*1000)).map(x=>[x.type,x.value]));return `${c.year}-${c.month.padStart(2,'0')}-${c.day.padStart(2,'0')}`;}
+
+export function capacityFrequency(samples,point,capacity,length){
+ const successes=samples.filter(r=>Math.max(0,Math.min(length,point+r.residual))<=capacity).length;
+ const total=samples.length,p=total?successes/total:null,z=1.96;
+ const center=total?(p+z*z/(2*total))/(1+z*z/total):null;
+ const margin=total?z*Math.sqrt(p*(1-p)/total+z*z/(4*total*total))/(1+z*z/total):null;
+ return {successes,total,probability:p,lower:total?Math.max(0,center-margin):null,upper:total?Math.min(1,center+margin):null};
+}

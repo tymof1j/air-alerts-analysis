@@ -9,12 +9,12 @@ const day=s=>new Intl.DateTimeFormat('uk-UA',{weekday:'short',day:'numeric',mont
 function Field({label,children}){return <label className="aa-field"><span>{label}</span>{children}</label>;}
 function NumberInput({label,value,onChange,max=600,min=0,step=15}){return <input aria-label={label} type="number" value={value} min={min} max={max} step={step} onChange={e=>onChange(Math.max(min,Math.min(max,Number(e.target.value)||0)))}/>;}
 function Duration({region,row,report,snapshot}){
- const [elapsed,setElapsed]=useState(30),[phase,setPhase]=useState('all'),[replay,setReplay]=useState('scenario'),[reveal,setReveal]=useState(false);
- const events=snapshot.queries.replay.rows.filter(r=>r.region===region),event=events.find(r=>r.id===replay),start=event?.start??Date.parse(snapshot.forecastAsOf)/1000-elapsed*60;
- const model=useMemo(()=>JSON.parse(row.model),[row.model]),result=useMemo(()=>predict(model,start,elapsed,phase),[model,start,elapsed,phase]),valid=!event||elapsed<event.duration,metrics=report.duration[report.duration_model];
+ const [elapsed,setElapsed]=useState(30),[phase,setPhase]=useState('all');
+ const start=Date.parse(snapshot.forecastAsOf)/1000-elapsed*60;
+ const model=useMemo(()=>JSON.parse(row.model),[row.model]),result=useMemo(()=>predict(model,start,elapsed,phase),[model,start,elapsed,phase]),valid=true,metrics=report.duration[report.duration_model];
  return <>
   <div className="aa-intro"><p>Плануйте очікування та поїздку між берегами Києва з оцінкою залишкового часу. Прогноз не є відбоєм або підтвердженням доступності мосту.</p><a href="https://dti.kyivcity.gov.ua/news/u-stolytsi-diiut-tymchasovi-obmezhennia-dorozhnoho-rukhu-pid-chas-povitrianoi-tryvohy" target="_blank" rel="noreferrer">Офіційні правила руху →</a></div>
-  <div className="aa-controls"><Field label="Сценарій / історична перевірка"><select aria-label="Історична тривога" value={event?.id??'scenario'} onChange={e=>{setReplay(e.target.value);setElapsed(0);setReveal(false);}}><option value="scenario">Умовна активна тривога на час snapshot</option>{events.map(e=><option key={e.id} value={e.id}>{day(localDate(e.start))} · {localTime(e.start)} · {e.level==='unknown'?'рівень невідомий':e.level}</option>)}</select></Field><Field label="Історичні аналоги · початок"><select aria-label="День чи ніч" value={phase} onChange={e=>setPhase(e.target.value)}><option value="all">Усі · основний прогноз</option><option value="day">Удень · 06:00–22:00</option><option value="night">Уночі · 22:00–06:00</option></select></Field></div>
+  <div className="aa-controls"><Field label="Історичні аналоги · початок"><select aria-label="День чи ніч" value={phase} onChange={e=>setPhase(e.target.value)}><option value="all">Усі · основний прогноз</option><option value="day">Удень · 06:00–22:00</option><option value="night">Уночі · 22:00–06:00</option></select></Field></div>
   <div className="aa-duration-grid">
    <DataComponent id="duration-estimate" queryId="duration_models" title="Скільки ще чекати" kind="custom" variant="card" sourceRows={[row]} displayRows={[{region,elapsed,phase,median:result.median,lower:result.lower,upper:result.upper,support:result.support}]}>
     <p className="aa-label">Тривога вже триває</p><div className="aa-elapsed"><NumberInput label="Минуло хвилин" value={elapsed} onChange={setElapsed} max={720} step={5}/><span>хв</span></div><input aria-label="Минуло часу" className="aa-slider" type="range" min="0" max="360" step="5" value={Math.min(elapsed,360)} onChange={e=>setElapsed(Number(e.target.value))}/>
@@ -25,10 +25,27 @@ function Duration({region,row,report,snapshot}){
     <DataComponent id="duration-horizons" queryId="duration_models" title="Короткі горизонти" kind="custom" variant="card" sourceRows={[row]} displayRows={[15,30,60,120].map((h,i)=>({horizon:h,probability:result.probabilities[i]}))}><div className="aa-probabilities" data-reviewed-rows>{[15,30,60,120].map((h,i)=><div key={h}><span>до {h} хв</span><strong>{valid?pct(result.probabilities[i]):'—'}</strong></div>)}</div></DataComponent>
    </div>
   </div>
-  {event&&<div className="aa-replay"><p>Прогноз у {localTime(start+elapsed*60)}. Фактичний кінець не подається у модель.</p><button className="aa-button" onClick={()=>setReveal(!reveal)}>{reveal?'Приховати результат':'Показати фактичний відбій'}</button>{reveal&&<strong>Відбій: {localTime(event.end)} · тривалість {minutes(event.duration)}</strong>}</div>}
+
   <div className="aa-metrics"><strong>Фінальний тест · {metrics.episodes} епізодів</strong><span>Brier {metrics.brier?.toFixed(3)??'—'}</span><span>MAE {minutes(metrics.mae)}</span><span>Покриття 80% діапазону: {pct(metrics.coverage80)}</span></div>
   <p className="aa-footnote">Колір і тип загрози збережені в історії, але не використані як входи: момент їх історичної доступності не підтверджений. Очікуйте офіційного відбою.</p>
+  <HistoricalCheck key={region} region={region} model={model} snapshot={snapshot}/>
  </>;
+}
+function HistoricalCheck({region,model,snapshot}){
+ const events=snapshot.queries.replay.rows.filter(r=>r.region===region);
+ const [selected,setSelected]=useState(events[0]?.id??''),[elapsed,setElapsed]=useState(0);
+ const event=events.find(e=>e.id===selected)??events[0];
+ const result=event?predict(model,event.start,elapsed):null;
+ const valid=event&&elapsed<event.duration;
+ const comparison=event?[{event:selected,elapsed,predictedTotal:valid&&result.median!=null?elapsed+result.median:null,actualTotal:event.duration}]:[];
+ return <Section id="historical-check" title="Перевірте модель на попередніх тривогах">
+  <p className="aa-muted">Оберіть реальну тривогу й порівняйте прогноз із тим, скільки вона тривала насправді. За замовчуванням прогноз робиться на момент початку. Модель навчена на даних до тестового періоду; фактичний відбій не використовується для прогнозу.</p>
+  {event?<><div className="aa-controls"><Field label="Тривога з минулого"><select aria-label="Історична тривога" value={event.id} onChange={e=>{setSelected(e.target.value);setElapsed(0);}}>{events.map(e=><option key={e.id} value={e.id}>{day(localDate(e.start))} · початок {localTime(e.start)}</option>)}</select></Field><Field label="Прогноз після початку · хв"><NumberInput label="Хвилин до історичного прогнозу" value={elapsed} onChange={setElapsed} max={720} step={5}/></Field></div>
+   <DataComponent id="historical-comparison" queryId="replay" title="Прогноз моделі та фактичний результат" kind="custom" variant="card" sourceRows={[event]} displayRows={comparison}>
+    {valid?<div className="aa-history-comparison" data-reviewed-rows><div><p className="aa-label">Модель: загальна тривалість</p><p className="aa-big aa-small">{minutes(comparison[0].predictedTotal)}</p><p className="aa-muted">Ще чекати: {minutes(result.median)} · прогноз відбою: {result.median==null?'—':localTime(event.start+(elapsed+result.median)*60)}</p></div><div><p className="aa-label">Насправді: загальна тривалість</p><p className="aa-big aa-small">{minutes(event.duration)}</p><p className="aa-muted">Фактичний відбій: {localTime(event.end)}</p></div></div>:<p className="aa-notice">На цей момент тривога вже завершилася. Зменште кількість хвилин, щоб порівняти прогноз до відбою.</p>}
+   </DataComponent>
+  </>:<p>Для цього регіону немає епізодів для історичної перевірки.</p>}
+ </Section>;
 }
 function Planner({region,report,snapshot}){
  const [shift,setShift]=useState('9-19'),[bound,setBound]=useState('week'),[existing,setExisting]=useState(0),[reserve,setReserve]=useState(30),[request,setRequest]=useState(240),[eventMinutes,setEventMinutes]=useState(60),[rent,setRent]=useState(0),[scenario,setScenario]=useState(false),[weekends,setWeekends]=useState(false);

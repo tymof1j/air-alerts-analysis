@@ -3,7 +3,7 @@
     "config/protocol.json": "913be3f9992b392125df15fc61c2deb422725a35474184807243e91207e3048e",
     "src/air_alerts/models.py": "2d9ba7303fdad07f9b24767a30fd8ce74e11e4661902a823840785c8434a9597",
     "src/air_alerts/data.py": "dfe2f4a5f002b9b2c8838a16d47d781432870db493c2c3ea50680527b0aacbc0",
-    "src/air_alerts/pipeline.py": "3d7ed651a4a73da66584727fb1384ab67a0787298588bcf851e5f64b2726bc91",
+    "src/air_alerts/pipeline.py": "b829a93919282f5582be97b5aed1f44733f8fa537f9409a92368b521393b05ca",
     "data/raw/snapshots/2026-10-12T191154Z/kyiv_air_alert_history.json": "8f9c12c75198700ed17c6982fb961ba71dfd9173661ba1297fef7c4c833f4a9a",
     "data/raw/snapshots/2026-10-12T191154Z/kyiv_dataset_catalog.json": "f7563247bf1a83e9c519c5743d7c5f2c817f31490e096617f6ce5e3c84c6316c",
     "data/raw/snapshots/2026-10-12T191154Z/kyiv_official_alert_intervals.json": "a4755fa65467a52ac3d559212381b6fab53b76b5f85785f185a2892ab27de7b2",
@@ -1193,5 +1193,8 @@
       },
       "secondary": true
     }
-  }
+  },
+  "correction_log": [
+    "Evaluation aborted before producing a holdout report: recent30 had zero completed training events in sparse Zakarpatska. Handle unavailable baselines explicitly; selected algorithms and hyperparameters unchanged."
+  ]
 }

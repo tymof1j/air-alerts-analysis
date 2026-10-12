@@ -167,7 +167,11 @@ def evaluate():
         baselines = {}
         selected_rows = []
         for name in choice["duration_validation_brier"]:
-            m = duration if name == choice["duration"] else DurationModel(name).fit(alerts, stamp(PROTOCOL["duration_fit_end"]))
+            try:
+                m = duration if name == choice["duration"] else DurationModel(name).fit(alerts, stamp(PROTOCOL["duration_fit_end"]))
+            except ValueError:
+                baselines[name] = {**duration_summary([]), "status": "insufficient recent training events"}
+                continue
             rows = duration_eval(m, alerts, start, end)
             baselines[name] = duration_summary(rows)
             if name == choice["duration"]:

@@ -383,7 +383,7 @@ header[data-data-app-chrome="topbar"] :is(strong, span, button, a) {
   flex: 0 0 auto;
 }
 .dashboard-tab {
-  max-width: 180px;
+  max-width: none;
   touch-action: auto;
   transition: opacity var(--dashboard-tab-drag-source-fade-duration) ease-out;
   user-select: none;

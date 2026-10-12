@@ -1,0 +1,1197 @@
+{
+  "fingerprint": {
+    "config/protocol.json": "913be3f9992b392125df15fc61c2deb422725a35474184807243e91207e3048e",
+    "src/air_alerts/models.py": "2d9ba7303fdad07f9b24767a30fd8ce74e11e4661902a823840785c8434a9597",
+    "src/air_alerts/data.py": "dfe2f4a5f002b9b2c8838a16d47d781432870db493c2c3ea50680527b0aacbc0",
+    "src/air_alerts/pipeline.py": "3d7ed651a4a73da66584727fb1384ab67a0787298588bcf851e5f64b2726bc91",
+    "data/raw/snapshots/2026-10-12T191154Z/kyiv_air_alert_history.json": "8f9c12c75198700ed17c6982fb961ba71dfd9173661ba1297fef7c4c833f4a9a",
+    "data/raw/snapshots/2026-10-12T191154Z/kyiv_dataset_catalog.json": "f7563247bf1a83e9c519c5743d7c5f2c817f31490e096617f6ce5e3c84c6316c",
+    "data/raw/snapshots/2026-10-12T191154Z/kyiv_official_alert_intervals.json": "a4755fa65467a52ac3d559212381b6fab53b76b5f85785f185a2892ab27de7b2",
+    "data/raw/snapshots/2026-10-12T191154Z/metadata.json": "b6f974fef249f6c74aabf0d86f0d46e6376d1f31ea82f8056e5483a6a9de249a",
+    "data/raw/snapshots/2026-10-12T191154Z/volunteer_metadata.json": "5c392be7f2a2dc12d78130bcee1efe3ee254ae44c06d85124d13e56feb8041c6",
+    "data/raw/snapshots/2026-10-12T191154Z/volunteer_data_en.csv": "b6c0160f0b4e6a83fa0d6f5dfbf1a3c623b6122819d37185f99b57d7587da14b"
+  },
+  "protocol": {
+    "version": 2,
+    "timezone": "Europe/Kyiv",
+    "holdout_start": "2026-09-28",
+    "holdout_end_exclusive": "2026-10-12",
+    "duration_fit_end": "2026-09-14",
+    "duration_validation_starts": [
+      "2026-06-08",
+      "2026-06-22",
+      "2026-07-06",
+      "2026-07-20",
+      "2026-08-03",
+      "2026-08-17",
+      "2026-08-31"
+    ],
+    "planner_fit_end": "2026-05-11",
+    "planner_calibration_start": "2026-05-11",
+    "planner_calibration_end_exclusive": "2026-09-28",
+    "planner_validation_starts": [
+      "2026-02-02",
+      "2026-02-16",
+      "2026-03-02",
+      "2026-03-16",
+      "2026-03-30",
+      "2026-04-13",
+      "2026-04-27"
+    ],
+    "planner_horizons": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7
+    ],
+    "planner_shifts": [
+      [
+        9,
+        19
+      ],
+      [
+        9,
+        18
+      ],
+      [
+        8,
+        18
+      ],
+      [
+        10,
+        18
+      ]
+    ],
+    "duration_candidates": [
+      "recent30",
+      "recent90",
+      "recent365",
+      "daynight90",
+      "seasonal",
+      "hazard90",
+      "hazard365"
+    ],
+    "planner_candidates": [
+      "recent30",
+      "weekday90",
+      "seasonal",
+      "ridge",
+      "boosting"
+    ],
+    "duration_landmarks": [
+      0,
+      15,
+      30,
+      60,
+      120
+    ],
+    "duration_probability_horizons": [
+      15,
+      30,
+      60,
+      120
+    ],
+    "primary_duration_metric": "episode-weighted Brier score; equal weight per validation fold",
+    "primary_planner_metric": "MAE of all seven horizons at fixed weekly origins; equal weight per validation fold",
+    "prediction_alpha": 0.05,
+    "minimum_calibration_weeks": 19,
+    "refit_in_holdout": false,
+    "threat_features": false,
+    "scope_note": "One-sided daily and simultaneous seven-day conformal bounds. Exchangeability of calibration days/weeks is an assumption, not guaranteed for war-related time series. Empirical holdout coverage must be reported. No exact event scheduling or safety guarantee."
+  },
+  "regions": {
+    "Kyiv City": {
+      "duration": "recent90",
+      "duration_validation_brier": {
+        "recent30": 0.17327,
+        "recent90": 0.171472,
+        "recent365": 0.181907,
+        "daynight90": 0.173307,
+        "seasonal": 0.201363,
+        "hazard90": 0.177925,
+        "hazard365": 0.188351
+      },
+      "shifts": {
+        "9-19": {
+          "selected": "boosting",
+          "validation_mae": {
+            "recent30": 24.967222,
+            "weekday90": 26.260627,
+            "seasonal": 21.721508,
+            "ridge": 22.892621,
+            "boosting": 20.923469
+          }
+        },
+        "9-18": {
+          "selected": "boosting",
+          "validation_mae": {
+            "recent30": 23.662971,
+            "weekday90": 24.606722,
+            "seasonal": 20.240054,
+            "ridge": 21.916118,
+            "boosting": 19.428231
+          }
+        },
+        "8-18": {
+          "selected": "boosting",
+          "validation_mae": {
+            "recent30": 25.339898,
+            "weekday90": 27.311254,
+            "seasonal": 21.369248,
+            "ridge": 22.841614,
+            "boosting": 20.384864
+          }
+        },
+        "10-18": {
+          "selected": "boosting",
+          "validation_mae": {
+            "recent30": 22.205006,
+            "weekday90": 22.174456,
+            "seasonal": 18.393776,
+            "ridge": 20.78111,
+            "boosting": 16.360714
+          }
+        }
+      },
+      "secondary": false
+    },
+    "Cherkaska oblast": {
+      "duration": "recent365",
+      "duration_validation_brier": {
+        "recent30": 0.1745,
+        "recent90": 0.166115,
+        "recent365": 0.164993,
+        "daynight90": 0.168075,
+        "seasonal": 0.171651
+      },
+      "shifts": {
+        "9-19": {
+          "selected": "seasonal",
+          "validation_mae": {
+            "recent30": 30.660516,
+            "weekday90": 31.203988,
+            "seasonal": 30.031592
+          }
+        },
+        "9-18": {
+          "selected": "seasonal",
+          "validation_mae": {
+            "recent30": 28.646088,
+            "weekday90": 28.263329,
+            "seasonal": 27.428157
+          }
+        },
+        "8-18": {
+          "selected": "seasonal",
+          "validation_mae": {
+            "recent30": 29.63004,
+            "weekday90": 29.61509,
+            "seasonal": 28.591194
+          }
+        },
+        "10-18": {
+          "selected": "seasonal",
+          "validation_mae": {
+            "recent30": 27.567863,
+            "weekday90": 27.148245,
+            "seasonal": 25.836707
+          }
+        }
+      },
+      "secondary": true
+    },
+    "Volynska oblast": {
+      "duration": "recent90",
+      "duration_validation_brier": {
+        "recent30": 0.20426,
+        "recent90": 0.200284,
+        "recent365": 0.20039,
+        "daynight90": 0.201257,
+        "seasonal": 0.212708
+      },
+      "shifts": {
+        "9-19": {
+          "selected": "weekday90",
+          "validation_mae": {
+            "recent30": 65.550431,
+            "weekday90": 62.408327,
+            "seasonal": 74.2156
+          }
+        },
+        "9-18": {
+          "selected": "weekday90",
+          "validation_mae": {
+            "recent30": 57.005164,
+            "weekday90": 55.960099,
+            "seasonal": 66.39037
+          }
+        },
+        "8-18": {
+          "selected": "weekday90",
+          "validation_mae": {
+            "recent30": 60.806893,
+            "weekday90": 59.888435,
+            "seasonal": 71.082176
+          }
+        },
+        "10-18": {
+          "selected": "weekday90",
+          "validation_mae": {
+            "recent30": 54.550193,
+            "weekday90": 52.515398,
+            "seasonal": 59.917303
+          }
+        }
+      },
+      "secondary": true
+    },
+    "Vinnytska oblast": {
+      "duration": "daynight90",
+      "duration_validation_brier": {
+        "recent30": 0.145546,
+        "recent90": 0.147675,
+        "recent365": 0.169328,
+        "daynight90": 0.145505,
+        "seasonal": 0.23735
+      },
+      "shifts": {
+        "9-19": {
+          "selected": "weekday90",
+          "validation_mae": {
+            "recent30": 15.546037,
+            "weekday90": 14.770112,
+            "seasonal": 15.495034
+          }
+        },
+        "9-18": {
+          "selected": "weekday90",
+          "validation_mae": {
+            "recent30": 15.388299,
+            "weekday90": 14.436582,
+            "seasonal": 14.863587
+          }
+        },
+        "8-18": {
+          "selected": "weekday90",
+          "validation_mae": {
+            "recent30": 15.915556,
+            "weekday90": 15.548735,
+            "seasonal": 16.629878
+          }
+        },
+        "10-18": {
+          "selected": "weekday90",
+          "validation_mae": {
+            "recent30": 13.904371,
+            "weekday90": 12.774262,
+            "seasonal": 12.796715
+          }
+        }
+      },
+      "secondary": true
+    },
+    "Lvivska oblast": {
+      "duration": "daynight90",
+      "duration_validation_brier": {
+        "recent30": 0.136594,
+        "recent90": 0.1349,
+        "recent365": 0.152396,
+        "daynight90": 0.134724,
+        "seasonal": 0.168534
+      },
+      "shifts": {
+        "9-19": {
+          "selected": "seasonal",
+          "validation_mae": {
+            "recent30": 44.209892,
+            "weekday90": 47.779276,
+            "seasonal": 23.950292
+          }
+        },
+        "9-18": {
+          "selected": "seasonal",
+          "validation_mae": {
+            "recent30": 40.008311,
+            "weekday90": 43.393746,
+            "seasonal": 22.037581
+          }
+        },
+        "8-18": {
+          "selected": "seasonal",
+          "validation_mae": {
+            "recent30": 44.032426,
+            "weekday90": 48.393068,
+            "seasonal": 24.021159
+          }
+        },
+        "10-18": {
+          "selected": "seasonal",
+          "validation_mae": {
+            "recent30": 36.760272,
+            "weekday90": 39.092962,
+            "seasonal": 20.121474
+          }
+        }
+      },
+      "secondary": true
+    },
+    "Odeska oblast": {
+      "duration": "recent30",
+      "duration_validation_brier": {
+        "recent30": 0.087912,
+        "recent90": 0.091497,
+        "recent365": 0.108743,
+        "daynight90": 0.091591,
+        "seasonal": 0.154563
+      },
+      "shifts": {
+        "9-19": {
+          "selected": "weekday90",
+          "validation_mae": {
+            "recent30": 32.021978,
+            "weekday90": 31.091257,
+            "seasonal": 35.718274
+          }
+        },
+        "9-18": {
+          "selected": "weekday90",
+          "validation_mae": {
+            "recent30": 28.893186,
+            "weekday90": 27.831543,
+            "seasonal": 31.98513
+          }
+        },
+        "8-18": {
+          "selected": "recent30",
+          "validation_mae": {
+            "recent30": 31.427035,
+            "weekday90": 31.653787,
+            "seasonal": 36.892298
+          }
+        },
+        "10-18": {
+          "selected": "weekday90",
+          "validation_mae": {
+            "recent30": 26.166219,
+            "weekday90": 25.487578,
+            "seasonal": 27.462269
+          }
+        }
+      },
+      "secondary": true
+    },
+    "Zhytomyrska oblast": {
+      "duration": "daynight90",
+      "duration_validation_brier": {
+        "recent30": 0.158428,
+        "recent90": 0.155256,
+        "recent365": 0.16627,
+        "daynight90": 0.155171,
+        "seasonal": 0.207148
+      },
+      "shifts": {
+        "9-19": {
+          "selected": "seasonal",
+          "validation_mae": {
+            "recent30": 22.795561,
+            "weekday90": 26.212116,
+            "seasonal": 17.221047
+          }
+        },
+        "9-18": {
+          "selected": "seasonal",
+          "validation_mae": {
+            "recent30": 20.837115,
+            "weekday90": 24.303267,
+            "seasonal": 15.775126
+          }
+        },
+        "8-18": {
+          "selected": "seasonal",
+          "validation_mae": {
+            "recent30": 23.789178,
+            "weekday90": 27.510087,
+            "seasonal": 17.949514
+          }
+        },
+        "10-18": {
+          "selected": "seasonal",
+          "validation_mae": {
+            "recent30": 18.567863,
+            "weekday90": 21.357154,
+            "seasonal": 13.586432
+          }
+        }
+      },
+      "secondary": true
+    },
+    "Rivnenska oblast": {
+      "duration": "recent30",
+      "duration_validation_brier": {
+        "recent30": 0.173647,
+        "recent90": 0.203884,
+        "recent365": 0.222778,
+        "daynight90": 0.201314,
+        "seasonal": 0.249772
+      },
+      "shifts": {
+        "9-19": {
+          "selected": "seasonal",
+          "validation_mae": {
+            "recent30": 17.790113,
+            "weekday90": 19.337633,
+            "seasonal": 13.02446
+          }
+        },
+        "9-18": {
+          "selected": "seasonal",
+          "validation_mae": {
+            "recent30": 16.887783,
+            "weekday90": 18.202076,
+            "seasonal": 12.399866
+          }
+        },
+        "8-18": {
+          "selected": "seasonal",
+          "validation_mae": {
+            "recent30": 17.419887,
+            "weekday90": 19.304993,
+            "seasonal": 13.232835
+          }
+        },
+        "10-18": {
+          "selected": "seasonal",
+          "validation_mae": {
+            "recent30": 15.240323,
+            "weekday90": 16.428031,
+            "seasonal": 11.161207
+          }
+        }
+      },
+      "secondary": true
+    },
+    "Khmelnytska oblast": {
+      "duration": "recent365",
+      "duration_validation_brier": {
+        "recent30": 0.273653,
+        "recent90": 0.208256,
+        "recent365": 0.205116,
+        "daynight90": 0.221419,
+        "seasonal": 0.223309
+      },
+      "shifts": {
+        "9-19": {
+          "selected": "seasonal",
+          "validation_mae": {
+            "recent30": 51.664235,
+            "weekday90": 44.286074,
+            "seasonal": 37.422971
+          }
+        },
+        "9-18": {
+          "selected": "seasonal",
+          "validation_mae": {
+            "recent30": 48.20568,
+            "weekday90": 41.428382,
+            "seasonal": 34.688337
+          }
+        },
+        "8-18": {
+          "selected": "seasonal",
+          "validation_mae": {
+            "recent30": 52.804813,
+            "weekday90": 45.758144,
+            "seasonal": 38.408239
+          }
+        },
+        "10-18": {
+          "selected": "seasonal",
+          "validation_mae": {
+            "recent30": 43.601548,
+            "weekday90": 37.356247,
+            "seasonal": 31.472641
+          }
+        }
+      },
+      "secondary": true
+    },
+    "Sumska oblast": {
+      "duration": "daynight90",
+      "duration_validation_brier": {
+        "recent30": 0.131439,
+        "recent90": 0.130997,
+        "recent365": 0.144228,
+        "daynight90": 0.130628,
+        "seasonal": 0.208421
+      },
+      "shifts": {
+        "9-19": {
+          "selected": "recent30",
+          "validation_mae": {
+            "recent30": 45.907438,
+            "weekday90": 50.015907,
+            "seasonal": 76.353053
+          }
+        },
+        "9-18": {
+          "selected": "recent30",
+          "validation_mae": {
+            "recent30": 43.651616,
+            "weekday90": 46.330848,
+            "seasonal": 79.117795
+          }
+        },
+        "8-18": {
+          "selected": "recent30",
+          "validation_mae": {
+            "recent30": 46.149683,
+            "weekday90": 47.468549,
+            "seasonal": 78.04405
+          }
+        },
+        "10-18": {
+          "selected": "recent30",
+          "validation_mae": {
+            "recent30": 40.159632,
+            "weekday90": 41.347329,
+            "seasonal": 76.252652
+          }
+        }
+      },
+      "secondary": true
+    },
+    "Ternopilska oblast": {
+      "duration": "recent30",
+      "duration_validation_brier": {
+        "recent30": 0.166987,
+        "recent90": 0.176905,
+        "recent365": 0.182157,
+        "daynight90": 0.173419,
+        "seasonal": 0.221205
+      },
+      "shifts": {
+        "9-19": {
+          "selected": "seasonal",
+          "validation_mae": {
+            "recent30": 54.028288,
+            "weekday90": 45.036427,
+            "seasonal": 39.101886
+          }
+        },
+        "9-18": {
+          "selected": "seasonal",
+          "validation_mae": {
+            "recent30": 48.642778,
+            "weekday90": 40.58211,
+            "seasonal": 35.361892
+          }
+        },
+        "8-18": {
+          "selected": "seasonal",
+          "validation_mae": {
+            "recent30": 53.986757,
+            "weekday90": 45.259884,
+            "seasonal": 39.501942
+          }
+        },
+        "10-18": {
+          "selected": "seasonal",
+          "validation_mae": {
+            "recent30": 43.014155,
+            "weekday90": 36.015286,
+            "seasonal": 31.564132
+          }
+        }
+      },
+      "secondary": true
+    },
+    "Zaporizka oblast": {
+      "duration": "recent30",
+      "duration_validation_brier": {
+        "recent30": 0.161172,
+        "recent90": 0.16712,
+        "recent365": 0.179037,
+        "daynight90": 0.166914,
+        "seasonal": 0.17848
+      },
+      "shifts": {
+        "9-19": {
+          "selected": "weekday90",
+          "validation_mae": {
+            "recent30": 56.805612,
+            "weekday90": 56.480097,
+            "seasonal": 68.505987
+          }
+        },
+        "9-18": {
+          "selected": "weekday90",
+          "validation_mae": {
+            "recent30": 55.316859,
+            "weekday90": 54.694594,
+            "seasonal": 60.899876
+          }
+        },
+        "8-18": {
+          "selected": "recent30",
+          "validation_mae": {
+            "recent30": 54.089524,
+            "weekday90": 54.090569,
+            "seasonal": 62.777512
+          }
+        },
+        "10-18": {
+          "selected": "weekday90",
+          "validation_mae": {
+            "recent30": 54.773543,
+            "weekday90": 53.40516,
+            "seasonal": 58.906603
+          }
+        }
+      },
+      "secondary": true
+    },
+    "Donetska oblast": {
+      "duration": "recent30",
+      "duration_validation_brier": {
+        "recent30": 0.224223,
+        "recent90": 0.229414,
+        "recent365": 0.272566,
+        "daynight90": 0.228394,
+        "seasonal": 0.292107
+      },
+      "shifts": {
+        "9-19": {
+          "selected": "recent30",
+          "validation_mae": {
+            "recent30": 68.08165,
+            "weekday90": 73.261177,
+            "seasonal": 172.213361
+          }
+        },
+        "9-18": {
+          "selected": "recent30",
+          "validation_mae": {
+            "recent30": 55.673832,
+            "weekday90": 61.526631,
+            "seasonal": 171.960228
+          }
+        },
+        "8-18": {
+          "selected": "recent30",
+          "validation_mae": {
+            "recent30": 58.402954,
+            "weekday90": 65.343849,
+            "seasonal": 178.720836
+          }
+        },
+        "10-18": {
+          "selected": "recent30",
+          "validation_mae": {
+            "recent30": 54.627653,
+            "weekday90": 59.11051,
+            "seasonal": 158.92616
+          }
+        }
+      },
+      "secondary": true
+    },
+    "Dnipropetrovska oblast": {
+      "duration": "recent30",
+      "duration_validation_brier": {
+        "recent30": 0.085425,
+        "recent90": 0.086687,
+        "recent365": 0.092089,
+        "daynight90": 0.086358,
+        "seasonal": 0.107522
+      },
+      "shifts": {
+        "9-19": {
+          "selected": "recent30",
+          "validation_mae": {
+            "recent30": 34.355045,
+            "weekday90": 34.718613,
+            "seasonal": 38.887204
+          }
+        },
+        "9-18": {
+          "selected": "weekday90",
+          "validation_mae": {
+            "recent30": 31.733152,
+            "weekday90": 31.614129,
+            "seasonal": 36.434127
+          }
+        },
+        "8-18": {
+          "selected": "weekday90",
+          "validation_mae": {
+            "recent30": 33.364615,
+            "weekday90": 32.299047,
+            "seasonal": 37.913862
+          }
+        },
+        "10-18": {
+          "selected": "recent30",
+          "validation_mae": {
+            "recent30": 30.772602,
+            "weekday90": 31.728569,
+            "seasonal": 38.358392
+          }
+        }
+      },
+      "secondary": true
+    },
+    "Kirovohradska oblast": {
+      "duration": "recent90",
+      "duration_validation_brier": {
+        "recent30": 0.149416,
+        "recent90": 0.146998,
+        "recent365": 0.150761,
+        "daynight90": 0.147433,
+        "seasonal": 0.164591
+      },
+      "shifts": {
+        "9-19": {
+          "selected": "weekday90",
+          "validation_mae": {
+            "recent30": 38.505839,
+            "weekday90": 36.640669,
+            "seasonal": 46.231941
+          }
+        },
+        "9-18": {
+          "selected": "weekday90",
+          "validation_mae": {
+            "recent30": 35.33805,
+            "weekday90": 33.400747,
+            "seasonal": 42.222168
+          }
+        },
+        "8-18": {
+          "selected": "weekday90",
+          "validation_mae": {
+            "recent30": 35.942755,
+            "weekday90": 33.726137,
+            "seasonal": 43.879572
+          }
+        },
+        "10-18": {
+          "selected": "weekday90",
+          "validation_mae": {
+            "recent30": 34.159994,
+            "weekday90": 32.707117,
+            "seasonal": 40.947721
+          }
+        }
+      },
+      "secondary": true
+    },
+    "Poltavska oblast": {
+      "duration": "daynight90",
+      "duration_validation_brier": {
+        "recent30": 0.152834,
+        "recent90": 0.150506,
+        "recent365": 0.152898,
+        "daynight90": 0.150474,
+        "seasonal": 0.166144
+      },
+      "shifts": {
+        "9-19": {
+          "selected": "weekday90",
+          "validation_mae": {
+            "recent30": 55.901661,
+            "weekday90": 52.009842,
+            "seasonal": 52.717115
+          }
+        },
+        "9-18": {
+          "selected": "seasonal",
+          "validation_mae": {
+            "recent30": 52.987426,
+            "weekday90": 49.762613,
+            "seasonal": 49.450247
+          }
+        },
+        "8-18": {
+          "selected": "weekday90",
+          "validation_mae": {
+            "recent30": 54.733798,
+            "weekday90": 50.580819,
+            "seasonal": 50.647951
+          }
+        },
+        "10-18": {
+          "selected": "seasonal",
+          "validation_mae": {
+            "recent30": 49.036088,
+            "weekday90": 46.720838,
+            "seasonal": 46.082646
+          }
+        }
+      },
+      "secondary": true
+    },
+    "Chernihivska oblast": {
+      "duration": "recent365",
+      "duration_validation_brier": {
+        "recent30": 0.165355,
+        "recent90": 0.165172,
+        "recent365": 0.16265,
+        "daynight90": 0.165475,
+        "seasonal": 0.176846
+      },
+      "shifts": {
+        "9-19": {
+          "selected": "recent30",
+          "validation_mae": {
+            "recent30": 64.149989,
+            "weekday90": 68.170312,
+            "seasonal": 108.588364
+          }
+        },
+        "9-18": {
+          "selected": "recent30",
+          "validation_mae": {
+            "recent30": 61.654654,
+            "weekday90": 65.274158,
+            "seasonal": 97.066238
+          }
+        },
+        "8-18": {
+          "selected": "recent30",
+          "validation_mae": {
+            "recent30": 65.582715,
+            "weekday90": 67.341657,
+            "seasonal": 102.330591
+          }
+        },
+        "10-18": {
+          "selected": "recent30",
+          "validation_mae": {
+            "recent30": 60.164558,
+            "weekday90": 63.080595,
+            "seasonal": 88.171372
+          }
+        }
+      },
+      "secondary": true
+    },
+    "Kyivska oblast": {
+      "duration": "recent30",
+      "duration_validation_brier": {
+        "recent30": 0.124472,
+        "recent90": 0.128096,
+        "recent365": 0.132207,
+        "daynight90": 0.129485,
+        "seasonal": 0.143156
+      },
+      "shifts": {
+        "9-19": {
+          "selected": "seasonal",
+          "validation_mae": {
+            "recent30": 33.163146,
+            "weekday90": 34.537336,
+            "seasonal": 29.163116
+          }
+        },
+        "9-18": {
+          "selected": "seasonal",
+          "validation_mae": {
+            "recent30": 29.549734,
+            "weekday90": 30.667907,
+            "seasonal": 25.269655
+          }
+        },
+        "8-18": {
+          "selected": "seasonal",
+          "validation_mae": {
+            "recent30": 32.329734,
+            "weekday90": 33.332402,
+            "seasonal": 27.742066
+          }
+        },
+        "10-18": {
+          "selected": "seasonal",
+          "validation_mae": {
+            "recent30": 26.603141,
+            "weekday90": 28.242034,
+            "seasonal": 22.659856
+          }
+        }
+      },
+      "secondary": true
+    },
+    "Mykolaivska oblast": {
+      "duration": "recent30",
+      "duration_validation_brier": {
+        "recent30": 0.116118,
+        "recent90": 0.117538,
+        "recent365": 0.125749,
+        "daynight90": 0.117839,
+        "seasonal": 0.139599
+      },
+      "shifts": {
+        "9-19": {
+          "selected": "recent30",
+          "validation_mae": {
+            "recent30": 43.753322,
+            "weekday90": 44.281364,
+            "seasonal": 52.346886
+          }
+        },
+        "9-18": {
+          "selected": "recent30",
+          "validation_mae": {
+            "recent30": 40.013917,
+            "weekday90": 40.18374,
+            "seasonal": 45.730826
+          }
+        },
+        "8-18": {
+          "selected": "recent30",
+          "validation_mae": {
+            "recent30": 39.454524,
+            "weekday90": 40.546882,
+            "seasonal": 47.318595
+          }
+        },
+        "10-18": {
+          "selected": "weekday90",
+          "validation_mae": {
+            "recent30": 38.573577,
+            "weekday90": 37.944239,
+            "seasonal": 42.330904
+          }
+        }
+      },
+      "secondary": true
+    },
+    "Ivano-Frankivska oblast": {
+      "duration": "daynight90",
+      "duration_validation_brier": {
+        "recent30": 0.225261,
+        "recent90": 0.139262,
+        "recent365": 0.157872,
+        "daynight90": 0.13391,
+        "seasonal": 0.185168
+      },
+      "shifts": {
+        "9-19": {
+          "selected": "seasonal",
+          "validation_mae": {
+            "recent30": 9.922619,
+            "weekday90": 8.724727,
+            "seasonal": 7.61812
+          }
+        },
+        "9-18": {
+          "selected": "seasonal",
+          "validation_mae": {
+            "recent30": 9.855816,
+            "weekday90": 8.605811,
+            "seasonal": 7.478966
+          }
+        },
+        "8-18": {
+          "selected": "seasonal",
+          "validation_mae": {
+            "recent30": 10.573855,
+            "weekday90": 9.672844,
+            "seasonal": 8.369586
+          }
+        },
+        "10-18": {
+          "selected": "seasonal",
+          "validation_mae": {
+            "recent30": 8.798849,
+            "weekday90": 7.579751,
+            "seasonal": 6.822236
+          }
+        }
+      },
+      "secondary": true
+    },
+    "Chernivetska oblast": {
+      "duration": "daynight90",
+      "duration_validation_brier": {
+        "recent30": 0.334531,
+        "recent90": 0.210053,
+        "recent365": 0.204466,
+        "daynight90": 0.202174,
+        "seasonal": 0.244219
+      },
+      "shifts": {
+        "9-19": {
+          "selected": "weekday90",
+          "validation_mae": {
+            "recent30": 76.62856,
+            "weekday90": 64.159946,
+            "seasonal": 71.002028
+          }
+        },
+        "9-18": {
+          "selected": "weekday90",
+          "validation_mae": {
+            "recent30": 70.409172,
+            "weekday90": 58.943619,
+            "seasonal": 65.114932
+          }
+        },
+        "8-18": {
+          "selected": "weekday90",
+          "validation_mae": {
+            "recent30": 78.057778,
+            "weekday90": 65.846092,
+            "seasonal": 72.247303
+          }
+        },
+        "10-18": {
+          "selected": "weekday90",
+          "validation_mae": {
+            "recent30": 62.7061,
+            "weekday90": 52.681427,
+            "seasonal": 58.668466
+          }
+        }
+      },
+      "secondary": true
+    },
+    "Kharkivska oblast": {
+      "duration": "recent30",
+      "duration_validation_brier": {
+        "recent30": 0.093331,
+        "recent90": 0.093739,
+        "recent365": 0.106356,
+        "daynight90": 0.09365,
+        "seasonal": 0.153663
+      },
+      "shifts": {
+        "9-19": {
+          "selected": "seasonal",
+          "validation_mae": {
+            "recent30": 42.468957,
+            "weekday90": 43.926098,
+            "seasonal": 41.700913
+          }
+        },
+        "9-18": {
+          "selected": "seasonal",
+          "validation_mae": {
+            "recent30": 41.470414,
+            "weekday90": 42.531867,
+            "seasonal": 41.071507
+          }
+        },
+        "8-18": {
+          "selected": "seasonal",
+          "validation_mae": {
+            "recent30": 43.772715,
+            "weekday90": 45.612493,
+            "seasonal": 43.546408
+          }
+        },
+        "10-18": {
+          "selected": "seasonal",
+          "validation_mae": {
+            "recent30": 38.340119,
+            "weekday90": 38.553688,
+            "seasonal": 38.159946
+          }
+        }
+      },
+      "secondary": true
+    },
+    "Zakarpatska oblast": {
+      "duration": "daynight90",
+      "duration_validation_brier": {
+        "recent30": 0.176102,
+        "recent90": 0.11846,
+        "recent365": 0.118533,
+        "daynight90": 0.117113,
+        "seasonal": 0.167119
+      },
+      "shifts": {
+        "9-19": {
+          "selected": "seasonal",
+          "validation_mae": {
+            "recent30": 52.856168,
+            "weekday90": 43.684216,
+            "seasonal": 36.904033
+          }
+        },
+        "9-18": {
+          "selected": "seasonal",
+          "validation_mae": {
+            "recent30": 48.271701,
+            "weekday90": 39.807189,
+            "seasonal": 33.711719
+          }
+        },
+        "8-18": {
+          "selected": "seasonal",
+          "validation_mae": {
+            "recent30": 54.376905,
+            "weekday90": 45.337435,
+            "seasonal": 37.953847
+          }
+        },
+        "10-18": {
+          "selected": "seasonal",
+          "validation_mae": {
+            "recent30": 42.644382,
+            "weekday90": 35.29149,
+            "seasonal": 29.942026
+          }
+        }
+      },
+      "secondary": true
+    },
+    "Khersonska oblast": {
+      "duration": "daynight90",
+      "duration_validation_brier": {
+        "recent30": 0.135276,
+        "recent90": 0.135326,
+        "recent365": 0.142485,
+        "daynight90": 0.133504,
+        "seasonal": 0.144564
+      },
+      "shifts": {
+        "9-19": {
+          "selected": "recent30",
+          "validation_mae": {
+            "recent30": 41.318333,
+            "weekday90": 47.339253,
+            "seasonal": 54.813016
+          }
+        },
+        "9-18": {
+          "selected": "recent30",
+          "validation_mae": {
+            "recent30": 36.465465,
+            "weekday90": 41.243743,
+            "seasonal": 47.072128
+          }
+        },
+        "8-18": {
+          "selected": "recent30",
+          "validation_mae": {
+            "recent30": 37.606831,
+            "weekday90": 43.148406,
+            "seasonal": 50.421017
+          }
+        },
+        "10-18": {
+          "selected": "recent30",
+          "validation_mae": {
+            "recent30": 31.489586,
+            "weekday90": 36.190866,
+            "seasonal": 40.43637
+          }
+        }
+      },
+      "secondary": true
+    }
+  }
+}

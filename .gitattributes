@@ -1,0 +1,2 @@
+# Preserve source bytes (including upstream CRLF) for checksum reproducibility.
+data/raw/** -text -diff

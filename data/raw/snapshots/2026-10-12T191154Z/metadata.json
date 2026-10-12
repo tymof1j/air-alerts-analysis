@@ -1,0 +1,62 @@
+{
+  "scope": "Kyiv city",
+  "timezone": "Europe/Kyiv; source times omit offsets",
+  "files": {
+    "kyiv_official_alert_intervals.json": {
+      "source_url": "https://data.kyivcity.gov.ua/dataset/bb0f27d3-00e2-414a-9d6e-a8b6633f8a2a/resource/5e4fb8a8-f0c8-4a12-885f-192d1f0dba75/download/airalerts.json",
+      "downloaded_at_utc": "2026-10-12T19:11:55.013226+00:00",
+      "size_bytes": 813846,
+      "sha256": "a4755fa65467a52ac3d559212381b6fab53b76b5f85785f185a2892ab27de7b2"
+    },
+    "kyiv_air_alert_history.json": {
+      "source_url": "https://kyiv.digital/open-api/air-alert/history",
+      "downloaded_at_utc": "2026-10-12T19:12:15.191697+00:00",
+      "size_bytes": 317255,
+      "sha256": "8f9c12c75198700ed17c6982fb961ba71dfd9173661ba1297fef7c4c833f4a9a"
+    },
+    "kyiv_air_alert_api_schema.yaml": {
+      "source_url": "https://kyiv.digital/open-api/docs/air-alert.yaml",
+      "downloaded_at_utc": "2026-10-12T19:12:15.389116+00:00",
+      "size_bytes": 10758,
+      "sha256": "4127d7f6c7f9d62b0b77867b8925d683bc68f4798b990003f7edc69941ea1cb3"
+    },
+    "kyiv_dataset_catalog.json": {
+      "source_url": "https://data.kyivcity.gov.ua/api/action/package_show?id=bb0f27d3-00e2-414a-9d6e-a8b6633f8a2a",
+      "downloaded_at_utc": "2026-10-12T19:12:15.514478+00:00",
+      "size_bytes": 12658,
+      "sha256": "f7563247bf1a83e9c519c5743d7c5f2c817f31490e096617f6ce5e3c84c6316c"
+    }
+  },
+  "quality": {
+    "interval_rows": 2641,
+    "first_interval_start_local": "2022-02-28T05:51:22",
+    "last_interval_start_local": "2026-10-12T05:46:31",
+    "last_interval_end_local": "2026-10-12T06:14:33",
+    "rows_by_level": {
+      "null": 2400,
+      "Жовтий рівень": 225,
+      "Червоний рівень": 16
+    },
+    "rows_by_cause": {
+      "null": 2400,
+      "Дронова небезпека": 225,
+      "Ракетна загроза": 13,
+      "Загроза балістики": 1,
+      "Масована дронова загроза": 2
+    },
+    "first_explicit_level_start_local": "2026-09-07T17:39:50",
+    "typed_interval_rows": 241,
+    "october_interval_rows": 89,
+    "duplicate_uids": 0,
+    "end_before_start_uids": [],
+    "history_event_rows": 5344,
+    "latest_history_event_local": "2026-10-12 22:10:06",
+    "history_keys": [
+      "causes",
+      "created_at",
+      "state"
+    ],
+    "history_duplicate_timestamps": 0,
+    "history_adjacent_active_events_recent": []
+  }
+}

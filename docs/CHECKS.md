@@ -11,3 +11,11 @@
 The final forecast model failed nominal 95% coverage. This is disclosed in the UI and README, not treated as a passed statistical check. Operational recommendation remains zero; exploratory scenario is separate.
 
 Portable `npm` source-build path has not been tested; the included `site` directory is the exact tested compiled static build. No live refresh or full AI-log export is claimed.
+
+## Live deployment
+
+GitHub Pages workflow run `38306340795` completed successfully. Verified
+`https://tymof1j.github.io/air-alerts-analysis/` in the collaborative browser:
+24 geography choices, duration CDF and median, weekly plots and planning table
+loaded. HTML and complete data sidecar downloaded from the live site matched
+the local packaged SHA-256 checksums. Creation status was cleared.
